@@ -332,7 +332,6 @@ function json(obj, code){
       const data = new FormData(form);
       const payload = Object.fromEntries(data.entries());
       const body = {
-        subject,
         paragraphIndex: Number(payload.paragraph),
         sentenceIndex: Number(payload.sentence),
         sentenceText: getSentenceText(payload.paragraph, payload.sentence),
