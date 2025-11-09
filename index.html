@@ -361,7 +361,7 @@ function json(obj, code){
   params.set('sentenceIndex', String(body.sentenceIndex));
   params.set('sentenceText', body.sentenceText || '');
   params.set('note', body.note || '');
-  params.set('fromEmail', body.fromEmail || '');
+  params.set('fromEmail', body.fromName || '');
   params.set('honeypot', body.honeypot || '');
 
   const res = await fetch(SCRIPT_URL, { method: 'POST', body: params });
