@@ -283,7 +283,7 @@ function json(obj, code){
           for(const r of arr){
             const card = document.createElement('div');
             card.className = 'comment';
-            const who = obfuscate(r.from_email||'Someone');
+            const who = r.from_email;
             const when = r.timestamp ? new Date(r.timestamp).toLocaleString() : '';
             card.innerHTML = `
               <div class="who">${escapeHtml(who)}</div>
