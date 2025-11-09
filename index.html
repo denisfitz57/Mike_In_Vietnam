@@ -165,8 +165,8 @@ function json(obj, code){
           <textarea id="noteText" name="note" placeholder="Your comment or question..." required></textarea>
         </div>
         <div class="field">
-          <label for="noteEmail">Your email (not shown publicly; for notifications/replies)</label>
-          <input id="noteEmail" name="email" type="email" placeholder="you@example.com" required />
+          <label for="noteName">Your name</label>
+          <input id="noteName" name="name" type="text" placeholder="Your name" required />
         </div>
         <input type="hidden" name="paragraph" id="noteParagraph" />
         <input type="hidden" name="sentence" id="noteSentence" />
@@ -289,7 +289,7 @@ function json(obj, code){
               <div class="who">${escapeHtml(who)}</div>
               <div class="when">${escapeHtml(when)}</div>
               <div class="text">${escapeHtml(r.note||'')}</div>
-              ${r.maintainer_reply? `<div class="reply"><strong>Maintainer reply:</strong> ${escapeHtml(r.maintainer_reply)}${r.reply_timestamp? ` <span class="when">(${escapeHtml(new Date(r.reply_timestamp).toLocaleString())})</span>`:''}</div>`:''}
+              ${r.maintainer_reply? `<div class="reply"><strong>Mike's reply:</strong> ${escapeHtml(r.maintainer_reply)}${r.reply_timestamp? ` <span class="when">(${escapeHtml(new Date(r.reply_timestamp).toLocaleString())})</span>`:''}</div>`:''}
             `;
             section.appendChild(card);
           }
@@ -308,7 +308,7 @@ function json(obj, code){
     const modal = document.getElementById('noteModal');
     const form = document.getElementById('noteForm');
     const noteText = document.getElementById('noteText');
-    const noteEmail = document.getElementById('noteEmail');
+    
     const noteParagraph = document.getElementById('noteParagraph');
     const noteSentence = document.getElementById('noteSentence');
     const noteContext = document.getElementById('noteContext');
@@ -332,12 +332,14 @@ function json(obj, code){
       const data = new FormData(form);
       const payload = Object.fromEntries(data.entries());
       const body = {
+        subject,
         paragraphIndex: Number(payload.paragraph),
         sentenceIndex: Number(payload.sentence),
         sentenceText: getSentenceText(payload.paragraph, payload.sentence),
         note: payload.note,
-        fromEmail: payload.email,
-        honeypot: document.getElementById('website').value || ''
+        fromName: payload.name,
+        pageTitle: document.title,
+        pageUrl: location.href
       };
 
       try {
