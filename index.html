@@ -1,98 +1,337 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Notes From Mike About Vietnam — Interactive (Public Q&A)</title>
   <style>
-    :root{
-      --bg:#0b0f14;--panel:#111825;--ink:#e6edf6;--muted:#9ab;--accent:#7dd3fc;--line:#1f2937;--good:#22c55e;--bad:#ef4444;
+    :root {
+      --bg: #0b0f14;
+      --panel: #111825;
+      --ink: #e6edf6;
+      --muted: #9ab;
+      --accent: #7dd3fc;
+      --line: #1f2937;
+      --good: #22c55e;
+      --bad: #ef4444;
     }
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;}
-    .wrap{max-width:980px;margin:32px auto;padding:0 16px 64px;}
-    h1{font-weight:800;letter-spacing:.2px;margin:0 0 6px;font-size:clamp(22px,3vw,34px);} 
-    p.lead{color:var(--muted);margin:0 0 24px}
-    .meta{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 22px;color:var(--muted);}
-    .meta code{background:#0d1320;border:1px solid #1b2436;padding:2px 6px;border-radius:6px;color:#cfe1ff}
 
-    details{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:14px 0;box-shadow:0 6px 16px rgba(0,0,0,.25)}
-    summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:center;gap:12px}
-    summary::-webkit-details-marker{display:none}
-    .chev{inline-size:12px;block-size:12px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:.2s}
-    details[open] .chev{transform:rotate(45deg)}
-    .tagline{font-weight:700}
-    .para{padding:12px 18px 4px;border-top:1px dashed var(--line);}
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    h1 {
+      font-weight: 800;
+      letter-spacing: .2px;
+      margin: 0 0 6px;
+      font-size: clamp(22px, 3vw, 34px);
+    }
+
+    p.lead {
+      color: var(--muted);
+      margin: 0 0 24px
+    }
+
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 8px 0 22px;
+      color: var(--muted);
+    }
+
+    .meta code {
+      background: #0d1320;
+      border: 1px solid #1b2436;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #cfe1ff
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      margin: 14px 0;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .25)
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    summary::-webkit-details-marker {
+      display: none
+    }
+
+    .chev {
+      inline-size: 12px;
+      block-size: 12px;
+      border-right: 2px solid var(--muted);
+      border-bottom: 2px solid var(--muted);
+      transform: rotate(-45deg);
+      transition: .2s
+    }
+
+    details[open] .chev {
+      transform: rotate(45deg)
+    }
+
+    .tagline {
+      font-weight: 700
+    }
+
+    .para {
+      padding: 12px 18px 4px;
+      border-top: 1px dashed var(--line);
+    }
 
     /* Sentence chips */
-    .sent{display:inline;position:relative;padding:2px 0;border-radius:6px}
-    .sent:hover{background:rgba(125,211,252,.12);cursor:pointer}
-    .sent:focus-visible{outline:2px solid var(--accent)}
+    .sent {
+      display: inline;
+      position: relative;
+      padding: 2px 0;
+      border-radius: 6px
+    }
 
-    .toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px;margin:6px 0 10px}
-    .toolbar .hint{opacity:.9}
-    .comments{border-top:1px dashed var(--line);margin-top:10px;padding:10px 0 16px}
-    .comment{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:#0d1422}
-    .comment .who{font-weight:700}
-    .comment .when{font-size:12px;color:var(--muted)}
-    .reply{border-left:3px solid #1f3a2e;padding-left:10px;margin-top:8px}
-    .empty{color:var(--muted);font-style:italic}
+    .sent:hover {
+      background: rgba(125, 211, 252, .12);
+      cursor: pointer
+    }
+
+    .sent:focus-visible {
+      outline: 2px solid var(--accent)
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 14px;
+      margin: 6px 0 10px
+    }
+
+    .toolbar .hint {
+      opacity: .9
+    }
+
+    .comments {
+      border-top: 1px dashed var(--line);
+      margin-top: 10px;
+      padding: 10px 0 16px
+    }
+
+    .comment {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 8px 0;
+      background: #0d1422
+    }
+
+    .comment .who {
+      font-weight: 700
+    }
+
+    .comment .when {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .reply {
+      border-left: 3px solid #1f3a2e;
+      padding-left: 10px;
+      margin-top: 8px
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic
+    }
 
     /* Modal */
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
-    .modal[aria-hidden="false"]{display:flex}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:680px;width:100%;padding:18px}
-    .card h2{margin:0 0 6px;font-size:20px}
-    .card p{margin:0 0 12px;color:var(--muted)}
-    .field{display:grid;gap:6px;margin:10px 0}
-    .field textarea{min-height:120px}
-    input,textarea{background:#0c1220;border:1px solid #1b2436;border-radius:10px;padding:10px;color:var(--ink);font:inherit}
-    label{font-weight:600}
-    .btnrow{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
-    button{border:1px solid #223049;background:#0f1729;color:var(--ink);padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-    .btn-primary{background:linear-gradient(180deg,#0ea5e9,#0284c7);border-color:#075985}
-    .btn-ghost{background:transparent}
-    .toast{position:fixed;right:16px;bottom:16px;background:#06210f;color:#d1fae5;border:1px solid #14532d;padding:10px 14px;border-radius:10px;display:none}
-    .toast.show{display:block}
-    .small{font-size:13px;color:var(--muted)}
-    a{color:#86e1ff}
-    .foot{margin-top:28px;color:var(--muted);font-size:14px;visibility: hidden}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50
+    }
+
+    .modal[aria-hidden="false"] {
+      display: flex
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      max-width: 680px;
+      width: 100%;
+      padding: 18px
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 20px
+    }
+
+    .card p {
+      margin: 0 0 12px;
+      color: var(--muted)
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin: 10px 0
+    }
+
+    .field textarea {
+      min-height: 120px
+    }
+
+    input,
+    textarea {
+      background: #0c1220;
+      border: 1px solid #1b2436;
+      border-radius: 10px;
+      padding: 10px;
+      color: var(--ink);
+      font: inherit
+    }
+
+    label {
+      font-weight: 600
+    }
+
+    .btnrow {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 8px
+    }
+
+    button {
+      border: 1px solid #223049;
+      background: #0f1729;
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #0ea5e9, #0284c7);
+      border-color: #075985
+    }
+
+    .btn-ghost {
+      background: transparent
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #06210f;
+      color: #d1fae5;
+      border: 1px solid #14532d;
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: none
+    }
+
+    .toast.show {
+      display: block
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    a {
+      color: #86e1ff
+    }
+
+    .foot {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 14px;
+      visibility: hidden
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace
+    }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <h1>Notes From Mike About Vietnam (written 2003)</h1>
-    <p class="lead">Click a tagline to reveal the paragraph. Click any sentence to comment or ask a question. Notes and replies are public.</p>
+    <p class="lead">Click a tagline to reveal the paragraph. Click on revealed text to comment or ask a question.</p>
 
-    <div class="meta">
-      <div>Reveal/Hide: click the heading below</div>
-      <div>Comment: click a sentence</div>
-      <div>Public Q&A: below each paragraph</div>
-    </div>
 
     <section id="accordion"></section>
 
     <section class="foot">
-      <p class="small">Hosting: commit this file to a GitHub repo and enable GitHub Pages (<span class="mono">main</span> → <span class="mono">/root</span>).</p>
+      <p class="small">Hosting: commit this file to a GitHub repo and enable GitHub Pages (<span
+          class="mono">main</span> → <span class="mono">/root</span>).</p>
       <details>
-        <summary><span class="chev"></span><span class="tagline">Setup Instructions — Google Sheets backend</span></summary>
+        <summary><span class="chev"></span><span class="tagline">Setup Instructions — Google Sheets backend</span>
+        </summary>
         <div class="para">
           <ol>
-            <li><strong>Create a Google Sheet</strong> with columns (row 1 headers):<br><span class="mono">timestamp, paragraph_index, sentence_index, sentence_text, note, from_email, status, maintainer_reply, reply_timestamp, ip, user_agent</span></li>
-            <li><strong>Open Extensions → Apps Script</strong>, create a script, paste the code from the <em>Apps Script</em> section at the bottom of this file.</li>
-            <li>In the script, set <span class="mono">SHEET_ID</span> to your Sheet’s ID and <span class="mono">SHEET_NAME</span> to your tab name (e.g., <span class="mono">Sheet1</span>).</li>
-            <li><strong>Deploy</strong>: Apps Script → Deploy → <em>New deployment</em> → <em>Web app</em> → Execute as: <em>Me</em>; Who has access: <em>Anyone</em>. Copy the web app URL.</li>
+            <li><strong>Create a Google Sheet</strong> with columns (row 1 headers):<br><span class="mono">timestamp,
+                paragraph_index, sentence_index, sentence_text, note, from_email, status, maintainer_reply,
+                reply_timestamp, ip, user_agent</span></li>
+            <li><strong>Open Extensions → Apps Script</strong>, create a script, paste the code from the <em>Apps
+                Script</em> section at the bottom of this file.</li>
+            <li>In the script, set <span class="mono">SHEET_ID</span> to your Sheet’s ID and <span
+                class="mono">SHEET_NAME</span> to your tab name (e.g., <span class="mono">Sheet1</span>).</li>
+            <li><strong>Deploy</strong>: Apps Script → Deploy → <em>New deployment</em> → <em>Web app</em> → Execute as:
+              <em>Me</em>; Who has access: <em>Anyone</em>. Copy the web app URL.
+            </li>
             <li>Back here, set <span class="mono">SCRIPT_URL</span> below to that web app URL and publish the site.</li>
-            <li>Maintainer replies by typing in the <span class="mono">maintainer_reply</span> column (and optionally <span class="mono">status</span>), which shows up publicly on the page.</li>
+            <li>Maintainer replies by typing in the <span class="mono">maintainer_reply</span> column (and optionally
+              <span class="mono">status</span>), which shows up publicly on the page.
+            </li>
           </ol>
-          <p class="small">Privacy: end-user emails are stored in the sheet but only an obfuscated form is displayed on the page.</p>
+          <p class="small">Privacy: end-user emails are stored in the sheet but only an obfuscated form is displayed on
+            the page.</p>
         </div>
       </details>
 
       <details>
-        <summary><span class="chev"></span><span class="tagline">Apps Script (paste into Extensions → Apps Script)</span></summary>
+        <summary><span class="chev"></span><span class="tagline">Apps Script (paste into Extensions → Apps
+            Script)</span></summary>
         <div class="para">
-<pre class="small"><code>// ===== Google Apps Script: publish as Web App =====
+          <pre class="small"><code>// ===== Google Apps Script: publish as Web App =====
 // Set your sheet info
 const SHEET_ID   = 'YOUR_SHEET_ID_HERE';
 const SHEET_NAME = 'Sheet1';
@@ -143,7 +382,10 @@ function json(obj, code){
   return out;
 }
 </code></pre>
-<p class="small">Note: Apps Script Web App responses are JSON. If you need strict CORS headers for certain hosts, switch to <span class="mono">HtmlService.createHtmlOutput</span> with <span class="mono">setXFrameOptionsMode</span> and serve JSON via script tag or add a simple <em>doOptions</em> handler; most setups work as-is.</p>
+          <p class="small">Note: Apps Script Web App responses are JSON. If you need strict CORS headers for certain
+            hosts, switch to <span class="mono">HtmlService.createHtmlOutput</span> with <span
+              class="mono">setXFrameOptionsMode</span> and serve JSON via script tag or add a simple <em>doOptions</em>
+            handler; most setups work as-is.</p>
         </div>
       </details>
     </section>
@@ -174,7 +416,8 @@ function json(obj, code){
           <button type="button" class="btn-ghost" id="btnCancel">Cancel</button>
           <button type="submit" class="btn-primary">Submit public note</button>
         </div>
-        <p class="small">Your note will be publicly visible after submission. Maintainer’s reply (added in the sheet) will appear here automatically.</p>
+        <p class="small">Your note will be publicly visible after submission. Maintainer’s reply (added in the sheet)
+          will appear here automatically.</p>
       </form>
     </div>
   </div>
@@ -188,6 +431,7 @@ function json(obj, code){
 
     // ======= DATA: Taglines + Paragraphs =======
     const items = [
+      { tag: "Leading Up To Vietnam", txt: "Questions about events leading up to Vietnam ." },
       { tag: "Baptism by Fire – Arriving in Vietnam and immediately facing deadly combat.", txt: "I’ve been in Viet Nam a little over a week and already I’ve taken three AK-47 rounds and probably killed enough men to become an “ace” in Air Force terms. What will the next twelve months bring?" },
       { tag: "Trained to Kill, Not to Grieve – The emotional numbness of war and loss.", txt: "I was trained to kill and when it’s “kill or be killed” there is no emotional baggage doing your job. No training can prepare you for the death of a friend. Luckily, I didn’t know any of the sixteen who were killed very well, so the pain was not too great." },
       { tag: "Wounded Yet Unaware – Returning to the ship believing the injuries were minor.", txt: "Those who were seriously wounded were sent to a hospital ship, I thought I was just grazed in the arm and leg, so I went back to our ship, which had four or five doctors. When I was examined, they found I was shot through the right upper leg and should have gone to the hospital ship. But since I was here, I would stay. My arm was stitched up right away but they waited a week to sew up my leg. Every day they would change the packing all through my leg, talk about pain! The doctor made one stitch in my leg, I was given a local, so I watched the whole operation, but when he tied the stitch and left 3 inches of excess sutures, he just stuffed the excess sutures into my leg. I was thinking to myself, “This just doesn’t seem right.” If it was not for the Demerol in me, I am sure I would have said something. But I told myself he is the doctor and knows what is best." },
@@ -209,6 +453,7 @@ function json(obj, code){
       { tag: "Indescribable Loss – The horror of seeing a friend killed instantly and being unable to help (gruesome).", txt: "We only took one casualty that day. A friend -- we were all friends over there -- looked into an enemy’s bunker without throwing in a grenade. He took a round right between the eyes that literally split his head in half. I was told to help evacuate him, but I became too physically ill to do this, so others had to do it." },
       { tag: "Forever Grateful to the F-4s – Survival owed to the Air Force’s intervention.", txt: "So, if it weren’t for those 2 F-4’s, 30 of us would be surrounded with odds not in our favor of about 30 to 1. THANKS, AIR FORCE!" },
       { tag: "Fourth of July Firestorm – A battle lit by napalm, remembered as fireworks of war.", txt: "July 4th of 1968 was a very memorable 4th. We were in the middle of a large battle that pitted our 200 men against 500 of the enemy. The enemy stayed to fight because the odds were in their favor. This was a moving battle that played out over acres of land, but when night came a white road separated us. We then called in F-4’s to drop napalm on the enemy’s side of the white road. In the movie “Apocalypse Now”, it was referred that napalm was the smell of victory. To us it was also the “Sight of Victory”. What beautiful fireworks." },
+      { tag: "After Vietnam", txt: "Aftermath of the War." },
     ];
 
     // ======= RENDER =======
@@ -223,12 +468,12 @@ function json(obj, code){
       content.className = 'para';
       content.innerHTML = `
         <div class="toolbar">
-          <span class="hint">Click any sentence to add a public note.</span>
+          <span class="hint">Click on text to add a note.</span>
           <button class="btn-ghost" data-copy>Copy paragraph</button>
         </div>
-        <div class="text" data-paragraph="${idx}" aria-label="Paragraph ${idx+1}">${wrapSentences(it.txt, idx)}</div>
+        <div class="text" data-paragraph="${idx}" aria-label="Paragraph ${idx + 1}">${wrapSentences(it.txt, idx)}</div>
         <div class="comments" id="c-${idx}">
-          <div class="empty">No public notes yet.</div>
+          <div class="empty">No notes yet.</div>
         </div>
       `;
       d.appendChild(s); d.appendChild(content); $acc.appendChild(d);
@@ -237,15 +482,15 @@ function json(obj, code){
     // Copy paragraph handler
     $acc.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-copy]');
-      if(!btn) return;
+      if (!btn) return;
       const para = btn.closest('.para').querySelector('.text').innerText;
-      navigator.clipboard.writeText(para).then(()=> flashToast('Copied paragraph to clipboard.'));
+      navigator.clipboard.writeText(para).then(() => flashToast('Copied paragraph to clipboard.'));
     });
 
     // Sentence click → open modal
     $acc.addEventListener('click', (e) => {
       const sent = e.target.closest('.sent');
-      if(!sent) return;
+      if (!sent) return;
       const pIdx = sent.dataset.paragraph;
       const sIdx = sent.dataset.sentence;
       const sTxt = sent.innerText.trim();
@@ -253,34 +498,34 @@ function json(obj, code){
     });
 
     // ======= LOAD & RENDER COMMENTS =======
-    async function fetchComments(){
-      if(!SCRIPT_URL || SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) return [];
+    async function fetchComments() {
+      if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) return [];
       const res = await fetch(SCRIPT_URL);
-      if(!res.ok) return [];
+      if (!res.ok) return [];
       const data = await res.json();
-      return Array.isArray(data)? data: [];
+      return Array.isArray(data) ? data : [];
     }
 
-    function renderComments(rows){
+    function renderComments(rows) {
       // Group by paragraph_index then by sentence_index
       const byPara = {};
-      for(const r of rows){
+      for (const r of rows) {
         const p = Number(r.paragraph_index); const s = Number(r.sentence_index);
-        if(Number.isNaN(p)) continue;
+        if (Number.isNaN(p)) continue;
         byPara[p] ||= {}; byPara[p][s] ||= [];
         byPara[p][s].push(r);
       }
-      for(const [pIdx, bySent] of Object.entries(byPara)){
+      for (const [pIdx, bySent] of Object.entries(byPara)) {
         const mount = document.getElementById(`c-${pIdx}`);
-        if(!mount) continue;
+        if (!mount) continue;
         mount.innerHTML = '';
-        for(const [sIdx, arr] of Object.entries(bySent)){
+        for (const [sIdx, arr] of Object.entries(bySent)) {
           const section = document.createElement('div');
           const title = document.createElement('div');
           title.className = 'small';
-          title.textContent = `Sentence ${Number(sIdx)+1}`;
+          title.textContent = `Sentence ${Number(sIdx) + 1}`;
           section.appendChild(title);
-          for(const r of arr){
+          for (const r of arr) {
             const card = document.createElement('div');
             card.className = 'comment';
             const who = r.from_email;
@@ -288,15 +533,15 @@ function json(obj, code){
             card.innerHTML = `
               <div class="who">${escapeHtml(who)}</div>
               <div class="when">${escapeHtml(when)}</div>
-              <div class="text">${escapeHtml(r.note||'')}</div>
-              ${r.maintainer_reply? `<div class="reply"><strong>Mike's reply:</strong> ${escapeHtml(r.maintainer_reply)}${r.reply_timestamp? ` <span class="when">(${escapeHtml(new Date(r.reply_timestamp).toLocaleString())})</span>`:''}</div>`:''}
+              <div class="text">${escapeHtml(r.note || '')}</div>
+              ${r.maintainer_reply ? `<div class="reply"><strong>Mike's reply:</strong> ${escapeHtml(r.maintainer_reply)}${r.reply_timestamp ? ` <span class="when">(${escapeHtml(new Date(r.reply_timestamp).toLocaleString())})</span>` : ''}</div>` : ''}
             `;
             section.appendChild(card);
           }
           mount.appendChild(section);
         }
-        if(!mount.children.length){
-          mount.innerHTML = '<div class="empty">No public notes yet.</div>';
+        if (!mount.children.length) {
+          mount.innerHTML = '<div class="empty">No notes yet.</div>';
         }
       }
     }
@@ -308,24 +553,24 @@ function json(obj, code){
     const modal = document.getElementById('noteModal');
     const form = document.getElementById('noteForm');
     const noteText = document.getElementById('noteText');
-    
+
     const noteParagraph = document.getElementById('noteParagraph');
     const noteSentence = document.getElementById('noteSentence');
     const noteContext = document.getElementById('noteContext');
     const btnCancel = document.getElementById('btnCancel');
 
-    function openModal(pIdx, sIdx, sTxt){
+    function openModal(pIdx, sIdx, sTxt) {
       noteParagraph.value = String(pIdx);
       noteSentence.value = String(sIdx);
-      noteContext.textContent = `Paragraph ${Number(pIdx)+1}, sentence ${Number(sIdx)+1}: “${sTxt}”`;
+      noteContext.textContent = `Paragraph ${Number(pIdx) + 1}, sentence ${Number(sIdx) + 1}: “${sTxt}”`;
       noteText.value = '';
-      modal.setAttribute('aria-hidden','false');
-      setTimeout(()=> noteText.focus(), 50);
+      modal.setAttribute('aria-hidden', 'false');
+      setTimeout(() => noteText.focus(), 50);
     }
-    function closeModal(){ modal.setAttribute('aria-hidden','true'); }
+    function closeModal() { modal.setAttribute('aria-hidden', 'true'); }
     btnCancel.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -343,71 +588,72 @@ function json(obj, code){
 
       try {
         const ok = await sendNote(body);
-        if(ok){ flashToast('✅ Note saved.'); closeModal(); const rows = await fetchComments(); renderComments(rows); }
+        if (ok) { flashToast('✅ Note saved.'); closeModal(); const rows = await fetchComments(); renderComments(rows); }
         else { throw new Error('Send failed'); }
-      } catch(err){
+      } catch (err) {
         alert('Sorry, could not save your note. Please try again later.');
         closeModal();
       }
     });
 
-  async function sendNote(body){
-  if(!SCRIPT_URL || SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) return false;
+    async function sendNote(body) {
+      if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) return false;
 
-  // Use URL-encoded body and NO custom headers → no preflight
-  const params = new URLSearchParams();
-  params.set('paragraphIndex', String(body.paragraphIndex));
-  params.set('sentenceIndex', String(body.sentenceIndex));
-  params.set('sentenceText', body.sentenceText || '');
-  params.set('note', body.note || '');
-  params.set('fromEmail', body.fromName || '');
-  params.set('honeypot', body.honeypot || '');
+      // Use URL-encoded body and NO custom headers → no preflight
+      const params = new URLSearchParams();
+      params.set('paragraphIndex', String(body.paragraphIndex));
+      params.set('sentenceIndex', String(body.sentenceIndex));
+      params.set('sentenceText', body.sentenceText || '');
+      params.set('note', body.note || '');
+      params.set('fromEmail', body.fromName || '');
+      params.set('honeypot', body.honeypot || '');
 
-  const res = await fetch(SCRIPT_URL, { method: 'POST', body: params });
-  // Some GAS deployments return text; parse defensively
-  const text = await res.text();
-  let j = {};
-  try { j = JSON.parse(text); } catch {}
-  return res.ok && (j.ok !== false);
-}
+      const res = await fetch(SCRIPT_URL, { method: 'POST', body: params });
+      // Some GAS deployments return text; parse defensively
+      const text = await res.text();
+      let j = {};
+      try { j = JSON.parse(text); } catch { }
+      return res.ok && (j.ok !== false);
+    }
 
 
-    function flashToast(msg){
+    function flashToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg; t.classList.add('show');
-      setTimeout(()=> t.classList.remove('show'), 2400);
+      setTimeout(() => t.classList.remove('show'), 2400);
     }
 
     // ======= TEXT UTILS =======
-    function escapeHtml(s){
-      return s.replace(/[&<>"']/g, (c)=>({
-        '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\'':'&#39;'
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', '\'': '&#39;'
       })[c]);
     }
 
-    function obfuscate(email){
-      if(!email) return 'Anonymous';
-      const [u,d] = String(email).split('@');
-      if(!d) return 'User';
-      return u.slice(0,1) + '***@' + d;
+    function obfuscate(email) {
+      if (!email) return 'Anonymous';
+      const [u, d] = String(email).split('@');
+      if (!d) return 'User';
+      return u.slice(0, 1) + '***@' + d;
     }
 
-    function wrapSentences(txt, pIdx){
+    function wrapSentences(txt, pIdx) {
       const sentences = splitSentences(txt);
-      return sentences.map((s, i)=> `<span class="sent" tabindex="0" data-paragraph="${pIdx}" data-sentence="${i}">${escapeHtml(s)}</span>${i<sentences.length-1?' ':''}`).join('');
+      return sentences.map((s, i) => `<span class="sent" tabindex="0" data-paragraph="${pIdx}" data-sentence="${i}">${escapeHtml(s)}</span>${i < sentences.length - 1 ? ' ' : ''}`).join('');
     }
 
-    function splitSentences(text){
-      const cleaned = text.replace(/\s+/g,' ').trim();
+    function splitSentences(text) {
+      const cleaned = text.replace(/\s+/g, ' ').trim();
       const parts = cleaned.match(/[^.!?]+[.!?]|[^.!?]+$/g) || [cleaned];
-      return parts.map(s=> s.trim());
+      return parts.map(s => s.trim());
     }
 
-    function getSentenceText(pIdx, sIdx){
+    function getSentenceText(pIdx, sIdx) {
       const i = Number(pIdx); const j = Number(sIdx);
       const sentences = splitSentences(items[i].txt);
       return sentences[j] || '';
     }
   </script>
 </body>
+
 </html>
